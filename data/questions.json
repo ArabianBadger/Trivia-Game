@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "category": "Science",
+    "question": "What is the chemical symbol for water?",
+    "options": ["O2", "H2O", "CO2", "HO2"],
+    "answer": "H2O"
+  },
+  {
+    "id": 2,
+    "category": "History",
+    "question": "Who was the first President of the United States?",
+    "options": ["Abraham Lincoln", "George Washington", "John Adams", "Thomas Jefferson"],
+    "answer": "George Washington"
+  }
+]
