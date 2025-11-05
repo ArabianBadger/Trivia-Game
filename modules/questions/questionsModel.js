@@ -1,44 +1,22 @@
-import fs from "fs";
-import path from "path";
+import Question from "./models/questionModel.js";
 
-const filePath = path.resolve("data/questions.json");
-
-
-export function getAllQuestions() {
-  const data = fs.readFileSync(filePath);
-  return JSON.parse(data);
+export async function getAllQuestions(filter = {}) {
+  return await Question.find(filter);
 }
 
-
-export function getQuestionById(id) {
-  const data = getAllQuestions();
-  return data.find((q) => q.id === id);
+export async function getQuestionById(id) {
+  return await Question.findById(id);
 }
 
-
-export function addNewQuestion(newQuestion) {
-  const data = getAllQuestions();
-  const newId = data.length ? data[data.length - 1].id + 1 : 1;
-  const question = { id: newId, ...newQuestion };
-  data.push(question);
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
-  return question;
+export async function addNewQuestion(data) {
+  const newQ = new Question(data);
+  return await newQ.save();
 }
 
-
-export function updateQuestion(id, updated) {
-  const data = getAllQuestions();
-  const index = data.findIndex((q) => q.id === id);
-  if (index === -1) return null;
-  data[index] = { ...data[index], ...updated };
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
-  return data[index];
+export async function updateQuestion(id, data) {
+  return await Question.findByIdAndUpdate(id, data, { new: true });
 }
 
-
-export function deleteQuestion(id) {
-  const data = getAllQuestions();
-  const filtered = data.filter((q) => q.id !== id);
-  fs.writeFileSync(filePath, JSON.stringify(filtered, null, 2));
-  return filtered.length < data.length;
+export async function deleteQuestion(id) {
+  return await Question.findByIdAndDelete(id);
 }
