@@ -21,4 +21,4 @@ app.use("/questions", questionsRoutes);
 app.use(notFoundHandler);
 app.use(errorHandler);
 
-app.listen(PORT, () => console.log(`🚀 Trivia Game API running on http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`Trivia Game API running on http://localhost:${PORT}`));
