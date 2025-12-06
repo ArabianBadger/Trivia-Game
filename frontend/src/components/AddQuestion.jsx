@@ -11,21 +11,33 @@ export default function AddQuestion() {
     choices: "",
     answer: "",
   });
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const submit = async (e) => {
     e.preventDefault();
+    setError("");
+    setLoading(true);
 
-    await api.post("/questions", {
-      ...form,
-      choices: form.choices.split(",")
-    });
-
-    navigate("/admin");
+    try {
+      await api.post("/questions", {
+        ...form,
+        choices: form.choices.split(",").map(c => c.trim())
+      });
+      alert("Question added successfully!");
+      navigate("/admin");
+    } catch (err) {
+      setError(err.response?.data?.error || "Failed to add question. Make sure you're logged in as admin.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div>
+    <div style={{ padding: "20px", maxWidth: "600px", margin: "0 auto" }}>
       <h2>Add Question</h2>
+
+      {error && <div style={{ color: "red", padding: "10px", marginBottom: "10px", backgroundColor: "#ffebee", borderRadius: "5px" }}>{error}</div>}
 
       <form onSubmit={submit}>
         <input 
@@ -48,7 +60,9 @@ export default function AddQuestion() {
           onChange={e => setForm({...form, answer: e.target.value})}
         /><br/>
 
-        <button type="submit">Add Question</button>
+        <button type="submit" disabled={loading} style={{ padding: "10px 20px", marginTop: "10px", cursor: loading ? "not-allowed" : "pointer" }}>
+          {loading ? "Adding..." : "Add Question"}
+        </button>
       </form>
     </div>
   );

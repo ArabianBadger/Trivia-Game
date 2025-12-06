@@ -7,6 +7,7 @@ import {
   deleteQuestion,
 } from "./questionsModel.js";
 import { validateQuestion } from "./questionsValidation.js";
+import { authenticateToken, authorizeRole } from "../../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
@@ -33,7 +34,7 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-router.post("/", validateQuestion, async (req, res, next) => {
+router.post("/", authenticateToken, authorizeRole("admin"), validateQuestion, async (req, res, next) => {
   try {
     const newQ = await addNewQuestion(req.body);
     res.status(201).json(newQ);
@@ -42,7 +43,7 @@ router.post("/", validateQuestion, async (req, res, next) => {
   }
 });
 
-router.put("/:id", validateQuestion, async (req, res, next) => {
+router.put("/:id", authenticateToken, authorizeRole("admin"), validateQuestion, async (req, res, next) => {
   try {
     const updated = await updateQuestion(req.params.id, req.body);
     if (!updated) return res.status(404).json({ error: "Question not found" });
@@ -52,7 +53,7 @@ router.put("/:id", validateQuestion, async (req, res, next) => {
   }
 });
 
-router.delete("/:id", async (req, res, next) => {
+router.delete("/:id", authenticateToken, authorizeRole("admin"), async (req, res, next) => {
   try {
     const deleted = await deleteQuestion(req.params.id);
     if (!deleted) return res.status(404).json({ error: "Question not found" });
