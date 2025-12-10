@@ -1,4 +1,4 @@
-import Question from "./models/questionModel.js";
+import Question from "./models/questionmodel.js";
 
 export async function getAllQuestions(filter = {}) {
   return await Question.find(filter);
