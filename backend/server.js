@@ -17,6 +17,10 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.get("/", (req, res) => {
+  res.json({ message: "Trivia Game API is running" });
+});
+
 app.use("/auth", usersRoutes);
 app.use("/questions", questionsRoutes);
 
