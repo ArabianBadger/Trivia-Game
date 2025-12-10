@@ -3,7 +3,7 @@ import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import Question from './modules/questions/models/questionModel.js';
+import Question from './modules/questions/models/questionmodel.js';
 
 dotenv.config();
 
