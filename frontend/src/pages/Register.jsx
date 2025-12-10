@@ -56,7 +56,7 @@ export default function Register() {
 
           <input
             type="password"
-            placeholder="Password (min 6 characters)"
+            placeholder="Password"
             value={form.password}
             onChange={(e) => setForm({ ...form, password: e.target.value })}
             required
